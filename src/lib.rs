@@ -32,7 +32,7 @@ impl GetStatistics for PopulationStatistics {
     fn from_array(array: &[f64]) -> Self {
         let n = array.len();
         let population_mean = mean(&array);
-        let standard_error = sample_standard_deviation(&array);
+        let standard_error = population_standard_deviation(&array);
 
         PopulationStatistics {
             population_mean,
@@ -91,30 +91,28 @@ pub fn mean(list: &[f64]) -> f64 {
 
 pub fn sample_standard_deviation(array: &[f64]) -> f64 {
     let n = array.len();
-    let s_mean: f64 = mean(&array);
+    let s_mean = mean(&array);
 
-    let mut sum: f64 = 0.0;
+    let mut sum = 0.0;
     for xi in array.into_iter() {
-        sum += f64::powf(*xi as f64 - s_mean, 2.0) as f64;
+        sum += f64::powf(xi - s_mean, 2.0) as f64;
     }
 
     sum = sum / (n as f64 - 1.0);
-    sum = sum.sqrt();
-    return sum;
+    sum.sqrt()
 }
 
 pub fn population_standard_deviation(array: &[f64]) -> f64 {
     let n = array.len();
-    let p_mean: f64 = mean(&array);
+    let p_mean = mean(&array);
 
-    let mut sum: f64 = 0.0;
+    let mut sum = 0.0;
     for xi in array.into_iter() {
-        sum += f64::powf(*xi as f64 - p_mean, 2.0) as f64
+        sum += f64::powf(xi - p_mean, 2.0) as f64;
     }
 
     sum = sum / (n as f64);
-    sum = sum.sqrt();
-    return sum;
+    sum.sqrt()
 }
 
 pub struct TTestResult {
@@ -165,5 +163,21 @@ mod tests {
             population_standard_deviation(&[1.0, 2.0, 3.0]),
             0.816496580927726
         );
+    }
+
+    #[test]
+    fn pop_stats_from_array_test() {
+        let pop = PopulationStatistics::from_array(&[1.0, 5.5, 7.7, 8.9]);
+        assert_eq!(pop.n, 4);
+        assert_eq!(pop.standard_error, 3.0144443932506038);
+        assert_eq!(pop.population_mean, 5.775);
+    }
+
+    #[test]
+    fn samp_stats_from_array_test() {
+        let samp = SampleStatistics::from_array(&[1.0, 5.5, 7.7, 8.9]);
+        assert_eq!(samp.n, 4);
+        assert_eq!(samp.standard_error, 3.4807805638007885);
+        assert_eq!(samp.sample_mean, 5.775);
     }
 }
