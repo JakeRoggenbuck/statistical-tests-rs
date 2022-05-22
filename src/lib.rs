@@ -10,7 +10,7 @@ pub struct PopulationStatistics {
     pub n: usize,
 }
 
-trait GetStatistics {
+pub trait GetStatistics {
     fn from_array(array: &[f64]) -> Self;
 }
 
