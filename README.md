@@ -1,6 +1,7 @@
 # statistical-tests-rs
 Statistical Tests for Rust
 
+## Examples
 ```rs
 use statistical_tests_rs::mean;
 
