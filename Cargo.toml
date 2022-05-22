@@ -2,7 +2,12 @@
 name = "statistical-tests-rs"
 version = "0.1.0"
 edition = "2021"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+license = "MIT"
+description = "Statistical Tests for Rust"
+homepage = "https://github.com/JakeRoggenbuck/statistical-tests-rs"
+repository = "https://github.com/JakeRoggenbuck/statistical-tests-rs"
+readme = "README.md"
+keywords = ["math", "statistics"]
+authors = ["jakeroggenbuck <jakeroggenbuck2@gmail.com"]
 
 [dependencies]
