@@ -91,28 +91,30 @@ pub fn mean(list: &[f64]) -> f64 {
 
 pub fn sample_standard_deviation(array: &[f64]) -> f64 {
     let n = array.len();
-    let s_mean = mean(&array);
+    let s_mean: f64 = mean(&array);
 
-    let mut sum = 0.0;
+    let mut sum: f64 = 0.0;
     for xi in array.into_iter() {
-        sum += f64::powf(xi - s_mean, 2.0)
+        sum += f64::powf(*xi as f64 - s_mean, 2.0) as f64;
     }
 
     sum = sum / (n as f64 - 1.0);
-    sum.sqrt()
+    sum = sum.sqrt();
+    return sum;
 }
 
 pub fn population_standard_deviation(array: &[f64]) -> f64 {
     let n = array.len();
-    let p_mean = mean(&array);
+    let p_mean: f64 = mean(&array);
 
-    let mut sum = 0.0;
+    let mut sum: f64 = 0.0;
     for xi in array.into_iter() {
-        sum += f64::powf(xi - p_mean, 2.0)
+        sum += f64::powf(*xi as f64 - p_mean, 2.0) as f64
     }
 
     sum = sum / (n as f64);
-    sum.sqrt()
+    sum = sum.sqrt();
+    return sum;
 }
 
 pub struct TTestResult {
@@ -144,11 +146,24 @@ mod tests {
 
     #[test]
     fn sample_standard_deviation_test() {
-        assert!(sample_standard_deviation(&[1.0]) == -1.0);
+        assert_eq!(
+            sample_standard_deviation(&[1.0, 2.0, 3.0, 5.5, 7.7]),
+            2.73001831495688
+        );
+
+        assert_eq!(sample_standard_deviation(&[1.0, 2.0, 3.0]), 1.0);
     }
 
     #[test]
     fn population_standard_deviation_test() {
-        assert!(sample_standard_deviation(&[1.0]) == -1.0);
+        assert_eq!(
+            population_standard_deviation(&[1.0, 2.0, 3.0, 5.5, 7.7]),
+            2.4418026128252057
+        );
+
+        assert_eq!(
+            population_standard_deviation(&[1.0, 2.0, 3.0]),
+            0.816496580927726
+        );
     }
 }
