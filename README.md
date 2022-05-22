@@ -12,7 +12,7 @@ fn main() {
 
 ```
 
-```
+```rs
 use statistical_tests_rs::{GetStatistics, SampleStatistics};
 
 fn main() {
