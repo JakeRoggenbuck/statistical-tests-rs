@@ -42,6 +42,48 @@ impl GetStatistics for PopulationStatistics {
     }
 }
 
+pub struct Population {
+    pub population: [f64],
+}
+
+pub struct Sample {
+    pub sample: [f64],
+}
+
+trait StandDev {
+    fn standard_deviation(array: &[f64]) -> f64;
+}
+
+impl StandDev for Population {
+    fn standard_deviation(array: &[f64]) -> f64 {
+        let n = array.len();
+        let p_mean = mean(&array);
+
+        let mut sum = 0.0;
+        for xi in array.into_iter() {
+            sum += f64::powf(xi - p_mean, 2.0)
+        }
+
+        sum = sum / (n as f64);
+        sum.sqrt()
+    }
+}
+
+impl StandDev for Sample {
+    fn standard_deviation(array: &[f64]) -> f64 {
+        let n = array.len();
+        let s_mean = mean(&array);
+
+        let mut sum = 0.0;
+        for xi in array.into_iter() {
+            sum += f64::powf(xi - s_mean, 2.0)
+        }
+
+        sum = sum / (n as f64 - 1.0);
+        sum.sqrt()
+    }
+}
+
 pub fn mean(list: &[f64]) -> f64 {
     let sum: f64 = Iterator::sum(list.iter());
     f64::from(sum) / (list.len() as f64)
